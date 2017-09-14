@@ -57,19 +57,21 @@ var requestHandler = function(request, response) {
     var data = {};
 
     request.addListener('data', (chunk) => {
-      // data.push(chunk);
       var chunks = chunk.toString().split('&');
+      //console.log(chunks);
       for (var i = 0; i < chunks.length; i++) {
         var words = chunks[i].split('=');
-        console.log(words);
-        data[words[0]] = words[1];
+        //console.log('words:',words);
+        // prop vals in data obj
+        console.log(words[1]);
+        data[words[0]] = decodeURIComponent(words[1].replace(/\+/g, ' '));
       }
       objectId += 1;
       data.objectId = objectId.toString();
       messages.results.push(data);
-      console.log(data);
-      console.log(chunk.toString());
-      console.log(messages.results);
+      // console.log(data);
+      // console.log(chunk.toString());
+      // console.log(messages.results);
       
     });
     var statusCode = 201;
